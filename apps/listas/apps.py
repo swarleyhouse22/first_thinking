@@ -1,5 +1,5 @@
 from django.apps import AppConfig
 
 
-class ListasConfig(AppConfig):
-    name = 'listas'
+class ListaConfig(AppConfig):
+    name = 'lista'

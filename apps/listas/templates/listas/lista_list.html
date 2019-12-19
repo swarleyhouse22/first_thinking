@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+
+<div class="col-md-12 p-0">
+<h3 class="display-3">Listas</h3>
+<hr>
+<a class="btn btn-secondary" role="button" href="{% url 'listas:lista_form' %}">Agregar</a>
+<hr>
+
+{% if not listas %}
+
+<p class="col-md-8 bg-danger p-2">No ha ingresado productos a la lista</p>
+
+{% else %}
+<div class="col-md-8 p-0 table-responsive">
+<table class="table table-hover">
+    <thead class="thead-light bg-primary">
+
+        <tr>
+            <td>Nombre</td>            
+            <td>Costo total Presupuestado</td>
+            <td>Costo total Real</td>
+            <td>Estado</td>
+            <td>Usuario</td>
+            <td>Acciones</td>
+        </tr>
+
+    </thead>
+    <tbody>
+        {% for lista in listas %}
+        <tr>
+            <td>{{ lista.nombre }}</td>
+            <td>${{ lista.costoTotalPresupuestado | default_if_none:"0" }}</td>
+            {% if lista.costoTotalReal <= lista.costoTotalPresupuestado %}
+            <td><span class="bg-bien">${{ lista.costoTotalReal | default_if_none:"0" }}</span></td>
+            {% elif lista.costoTotalReal > lista.costoTotalPresupuestado %}            
+            <td><span class="bg-pasado">${{ lista.costoTotalReal | default_if_none:"0" }}</span></td>
+            {% else %}
+            <td><span class="bg-bien">${{ lista.costoTotalReal | default_if_none:"0" }}</span></td>
+            {% endif %}        
+            <td>{{ lista.estado }}</td>
+            <td>{{ lista.usuario }}</td>
+            <td>        
+                <a class="btn btn-sm btn-info lista mr-2" href="{% url 'listas:lista_detail' lista.id %}"><i class="fas fa-search"></i></a>
+
+                <a class="btn btn-sm btn-primary mr-2" href="{% url 'listas:lista_update' lista.id %}" ><i class="fas fa-edit"></i></a>
+                <a class="btn btn-sm btn-danger" href="{% url 'listas:lista_delete' lista.id %}"><i class="fas fa-trash"></i></a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+
+</table>
+{% endif %}
+
+</div>
+<br><br><br><br><br><br><br>
+</div>
+
+{% endblock %}

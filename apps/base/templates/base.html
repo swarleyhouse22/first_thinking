@@ -1,0 +1,128 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="es">
+{% load pwa %}
+<head>
+    {% progressive_web_app_meta %}
+
+    <!-- Titulo -->
+    <title>Lista - {% block title %} Title {% endblock %}</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <uses-permission android:name="android.permission.INTERNET"/>
+    
+    <!-- Estilos -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">    
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'css/estilos.css' %}">
+    {% block head %}
+    {% endblock %}
+
+</head>
+<body>
+
+    <header>      
+    {% block navbar %}
+    <!-- Cabezera -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary py-2">
+        <a class="navbar-brand" href="#">
+            <img src="{% static 'images/logo1.png' %}" width="30" height="30" alt="Inicio">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+    <div class="collapse navbar-collapse" id="navbarColor01">
+        <ul class="navbar-nav mr-auto">
+
+        <li class="nav-item active">
+            <a class="nav-link" href="{% url 'base:home' %}">Inicio <span class="sr-only">(current)</span></a>
+        </li>
+
+        {% if not user.is_authenticated %}        
+        
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'base:login' %}">Iniciar sesión</a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'base:registro' %}">Registrarse</a>
+        </li>
+        {% endif %}
+
+        {% if user.is_authenticated %}
+        <li class="nav-item">
+            <a class="nav-link lista-nav" href="{% url 'listas:lista_list' %}">Listas</a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'productos:producto_list' %}">Productos</a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'tiendas:tiendas_list' %}">Tiendas</a>
+        </li>
+
+        </ul>        
+        <ul class="navbar-nav flex-row ml-lg-auto d-none d-lg-flex">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><strong style="color: white;">Usuario:</strong> {{ user.get_username }}</a>
+                <div class="dropdown-menu" x-placement="bottom-start" >
+                <a class="dropdown-item" href="{% url 'base:logout' %}">Cerrar Sesión</a>
+            </li>
+        </ul>
+        {% endif %}
+    </div>
+    </nav>
+    </header>
+    {% endblock %}
+
+    {% block header %}   
+    {% endblock %}
+
+    <div class="content">
+        <div class="col-md-12 mt-3 mb-5">
+            {% block content %}
+            {% endblock %}
+        </div>
+    </div>
+
+
+{% block footer %}
+{% if user.is_authenticated %}
+<ul class="navbar-nav navbar-dark bg-info d-lg-none">
+    <ul class="navbar-nav m-3">
+        <li class="nav-item">
+            <strong>Usuario:</strong> {{ user.get_username }}
+        </li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'base:logout' %}">Cerrar sesión</a></li>
+    </ul>
+</ul>
+{% endif %}
+<!-- Pie de página -->
+<footer class="footer bg-dark p-2 pb-2">
+<div class="row">
+    <div class="col-12 ml-2 mr-2">
+        <ul class="list-unstyled">            
+            <li>Franco Arriaza</li>
+            <li>Code released under the <a href="https://github.com/thomaspark/bootswatch/blob/master/LICENSE">MIT License</a>.</li>
+            <li>Based on <a href="https://getbootstrap.com" rel="nofollow">Bootstrap</a>. Icons from <a href="http://fontawesome.io/" rel="nofollow">Font Awesome</a>. Web fonts from <a href="https://fonts.google.com/" rel="nofollow">Google</a>.</li>
+            <br> <li><a href="/admin">Ingresar a Administración</a></li> 
+        </ul>
+    </div>
+</div>
+
+</footer>
+{% endblock %}
+    
+   
+
+<!-- Scripts -->
+<script src="{% static 'js/jquery.min.js' %}"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<script src="{% static 'js/lista-productos.js' %}"></script>
+{% block extrajs %}
+{% endblock %}
+
+</body>
+</html>

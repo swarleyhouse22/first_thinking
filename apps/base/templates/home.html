@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+{% if user.is_authenticated %}
+<div id="home">
+<div class="col-8 p-0 pt-2">
+  <h1>Bienvenido {{ user.get_full_name }}!</h1>
+  <p>Recuerda que debes agregar tus tiendas y productos antes de comenzar a crear tus listas!</p>
+  <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+</div>
+
+{% else %}
+<img src="{% static 'images/home.png' %}" id="home-image" class="d-none d-xl-block position-absolute" style="left:1em; top:-4em;">
+
+<div class="d-none d-xl-block col-md-4 col-center text-center mb-5 mt-5 jumbotron" id="home" style="top: 7em; left:20em;">  
+  <h1 class="display-4">Empieza por Organizar tus Compras!</h1>
+  <a href="{% url 'base:login' %}" class="btn btn-primary mt-3 mb-2">Iniciar sesión</a>
+  <p class="mb-1">o</p>
+  <a href="{% url 'base:registro' %}">Registrarse</a>  
+</div>
+<div class="d-sm-block d-xl-none col-center text-center" id="home" >
+    <div class="col-lg-4 mx-auto">
+    <h1 class="display-4">Empieza por Organizar tus Compras!</h1>
+    <a href="{% url 'base:login' %}" class="btn btn-primary mt-3 mb-2">Inicio de sesión</a>
+    <p class="mb-1">o</p>
+    <a href="{% url 'base:registro' %}">Registrarse</a>
+  </div>
+  </div>
+<br><br><br><br><br><br><br><br><br><br><br>
+</div>
+{% endif %}
+{% endblock %}

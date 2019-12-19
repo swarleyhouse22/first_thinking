@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title %}Crear Lista {% endblock %}
+
+{% block content %}
+<div class="">
+<h3 class="display-3">Listas</h3>
+<hr>
+</div>
+<div class="col-md-12 p-0">
+<form method="post" class="col-md-4 p-0">
+    {% csrf_token %}
+
+
+    
+    {% for field in form %}
+    <div class="form-group">
+        <label for="{{ field.name}}">{{ field.label_tag }}</label><br>            
+        {{ field }}
+        <div class="bg-danger mt-1">{{ field.errors }}</div>
+    </div>
+    {% endfor %}
+
+    <div class="bg-danger mt-1 mb-2">{{ form.non_field_errors }}</div>      
+
+    <input type="submit" class="btn btn-success" value="Guardar" />
+    <a class="ml-2" href="{% url 'listas:lista_list' %}">Cancelar</a>
+</form>
+</div>
+{% endblock %}

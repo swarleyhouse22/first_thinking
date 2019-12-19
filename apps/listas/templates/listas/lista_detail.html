@@ -1,0 +1,135 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title %}Lista {% endblock %}
+
+{% block content %}
+<div class="">    
+
+<form method="post" class="row p-2">
+    {% csrf_token %}
+    
+    <!-- Cabezera -->
+    <div class="col-md-12 p-0 pb-3">
+        <h3 class="display-3 d-inline-block">Lista: {{lista.nombre}}</h3>
+        <span class="ml-3">{{lista.estado}}</span>
+        <hr>
+        <h4>Costo Total Presupuestado: ${{lista.costoTotalPresupuestado }}</h4>
+        <h1>Costo Total Real: ${{lista.costoTotalReal}}</h1>
+    </div>
+
+    <!-- Productos en la lista -->
+    <p>¿Tu producto no está en la lista? <a href="{% url 'productos:producto_form' %}?next=listas&id={{lista.id}}">Agregar producto</a></p>
+    <div class="col-lg-9 p-0 pr-2">
+        {% if not productos %}
+        <p class="bg-danger p-2">No se han ingresado productos a la lista.</p>
+
+        {% else %}
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead class="thead-light bg-primary">
+
+                    <tr>
+                        <td>Nombre</td>
+                        <td>Costo Presupuestado</td>
+                        <td>Costo Real</td>
+                        <td>Tienda</td>
+                        <td>Estado</td>
+                        <td>Notas</td>
+                        <td>Acciones</td>            
+                    </tr>
+
+                </thead>
+                <tbody>
+                    {% for producto in productos %}
+                    <tr>
+                        <td>{{ producto.nombre }}</td>
+                        <td>${{ producto.costoPresupuestado }}</td>
+                        <td>${{ producto.costoReal | default_if_none:"0" }}</td>
+                        <td>{{ producto.tienda }}</td>
+                        <td>{{ producto.estado }}</td>
+                        <td>{{ producto.notas | default_if_none:"" }}</td>
+                        <td>
+                            
+                            <a class="btn btn-sm btn-danger" href="{% url 'listas:lista_remove_producto' %}?lista={{ lista.id | urlencode }}&producto={{ producto.id | urlencode }}" title="Quitar"><i class="fas fa-times"></i></a>
+                            <a class="btn btn-sm btn-primary" href="{% url 'productos:producto_update' producto.id %}?next=listas&id={{lista.id}}" title="Editar"><i class="fas fa-edit"></i></a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Productos disponibles -->
+    <div class="col-md-3 p-0">
+            {% if not listaProductos %}
+            <p class="bg-warning p-3">No se han ingresado productos.</p>
+            
+            {% else %}
+            <ul class="list-group">
+                <li class="list-group-item active">Lista de productos disponbles</li>
+                {% for producto in listaProductos %}
+                    {% if not producto in productos %}
+                        <li class="list-group-item d-flex">
+                            {{ producto }}
+                            <span class="ml-auto">
+                                <a class="btn btn-sm btn-success" href="{% url 'listas:lista_add_producto' %}?lista={{ lista.id | urlencode }}&producto={{ producto.id | urlencode }}" title="Agregar"><i class="fas fa-plus"></i></a>
+                                <a class="btn btn-sm btn-primary" href="{% url 'productos:producto_update' producto.id %}?next=listas&id={{lista.id}}" title="Editar"><i class="fas fa-edit"></i></a>
+                            </span>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </div>    
+</form>
+
+</div>
+{% endblock %}
+
+
+{% block extrajs %}
+<script>
+var costoReal = "{{lista.costoTotalReal}}";
+var costoPre = "{{lista.costoTotalPresupuestado}}";
+
+var productos = (("{{productosJson}}").replace(/&(l|g|quo)t;/g, function(a,b){
+    return {
+        l   : '<',
+        g   : '>',
+        quo : '"'
+    }[b];
+}));
+ 
+productos = JSON.parse( productos );
+
+var oks = 0;
+productos.forEach((producto) => {
+    if (producto.fields.estado === 'Listo') {
+        oks = oks + 1
+    }    
+});
+
+if (productos.length != 0 && oks === productos.length) {
+    Push.create("Alerta",{
+        body:"Se ha completado la lista",
+        timeout:5000,
+        onClick:function(){
+            this.close();
+        }
+    });
+}
+
+if (costoReal > costoPre) {
+    Push.create("Alerta",{
+        body:"Se ha excedido en el costo real",
+        timeout:5000,
+        onClick:function(){
+            this.close();
+        }
+    });
+}
+</script>
+{% endblock %}

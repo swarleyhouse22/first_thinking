@@ -1,0 +1,10 @@
+#Migrations
+!**/migrations
+**/migrations/**
+
+#vscode
+.vscode/
+.vscode/setting.json
+
+#Django
+__pychache__/
