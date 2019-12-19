@@ -1,0 +1,33 @@
+.col-center {
+    float: none;
+    margin: 0 auto;
+}
+
+.bg-pasado {
+    background-color: crimson;
+    border-radius: 17px;    
+    padding: 13px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.bg-bien {
+    background-color: forestgreen;
+    border-radius: 17px;    
+    padding: 13px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.list-group.cont{
+    max-height: 600px;
+    margin-bottom: 10px;
+    overflow: scroll;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* .nav-item:hover{
+    background-color: rgba(255, 238, 0, 0.753);
+    margin: 0;
+    border-radius: 8px;
+} */
