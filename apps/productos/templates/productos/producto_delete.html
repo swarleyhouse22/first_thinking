@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+<div class="col-md-12 p-0">
+
+    <h3 class="display-3">Productos</h3>
+    <hr>
+
+    <form method="POST">{% csrf_token %}
+
+        <div>       
+            <h3>¿Deseas eliminar el producto {{ object.nombre }}?</h3>
+            <button class="btn btn-danger" type="submit">Eliminar</button>
+            <a class="btn btn-secondary" href="{% url 'productos:producto_list' %}">Cancelar</a>
+            <br>
+        </div>
+
+    </form>
+    <br><br><br><br><br><br><br><br><br><br><br>
+</div>
+{% endblock %}
