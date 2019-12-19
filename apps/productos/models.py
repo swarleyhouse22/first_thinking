@@ -29,7 +29,7 @@ class Producto(models.Model):
         return json.dumps(self)  
 
 class ProductosForm(forms.ModelForm):
-
+    
     class Meta:
         model=Producto
         fields = [

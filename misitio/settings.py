@@ -42,8 +42,8 @@ INSTALLED_APPS = [
     'apps.listas',
     'apps.productos',
     'apps.tiendas',
-    'apps.social.apps.django_app.default',
-    'social_django',
+    #'apps.social.apps.django_app.default',
+    #'social_django',
 ]
 
 MIDDLEWARE = [

@@ -28,7 +28,7 @@ class Tienda(models.Model):
 
 
 class TiendaForm(forms.ModelForm):
-
+     
     class Meta:
         model = Tienda
         fields = [
