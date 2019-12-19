@@ -37,6 +37,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'apps.base',
+    'apps.listas',
+    'apps.productos',
+    'apps.tiendas',
+    'apps.social.apps.django_app.default',
+    'social_django',
 ]
 
 MIDDLEWARE = [
@@ -118,3 +124,28 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
+
+# Social login
+AUTHENTICATION_BACKENDS = [
+    			'social.backends.facebook.FacebookAppOAuth2',
+    			'social.backends.facebook.FacebookOAuth2',
+    			'django.contrib.auth.backends.ModelBackend',
+                'social_core.backends.facebook.FacebookOAuth2',                
+                'social_core.backends.google.GoogleOAuth2',
+                 
+]
+ 
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/' 
+SOCIAL_AUTH_FACEBOOK_KEY = '448848698979072'
+SOCIAL_AUTH_FACEBOOK_SECRET = 'b86bdf02613c31ce07e0594ed89e1b73'
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '812307734006-3od0l87a2l4p6plmu9vopu86fa2ps24s.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'm-aYiKcLKuyR6uZdtC9sFulu'
+
+
+LOGIN_REDIRECT_URL = reverse_lazy('base:home')
+LOGOUT_REDIRECT_URL = reverse_lazy('base:login')
