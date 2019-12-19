@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+<div class="">
+
+    <h3 class="display-3">Tiendas</h3>
+    <hr>
+
+    <form method="POST">{% csrf_token %}
+
+        <div>       
+            <h3>Estás seguro de eliminar el registro de la tienda? {{object}}?</h3><br>
+            <button class="btn btn-danger" type="submit">Eliminar</button>
+            <a class="btn btn-success" href="{% url 'tiendas:tiendas_list' %}">Cancelar</a> 
+            <br>
+        </div>
+
+    </form>
+    <br><br><br><br><br><br><br><br><br><br><br>
+</div>
+{% endblock %}

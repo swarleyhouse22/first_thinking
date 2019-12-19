@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+<div class="">
+<!-- <h1>Lista de Tiendas</h1> -->
+<h3 class="display-3">Tiendas</h3>
+<hr>
+<a class="btn btn-secondary btn-sm" role="button" href="{% url 'tiendas:tiendas_form' %}">Agregar Tienda</a>
+<hr>
+
+<!-- Tiendas personales -->
+<div class="row p-2">
+<div class="col-lg-6 p-1">
+<h2>Tiendas personales</h2>
+<p class="text-info">Aquí aparecerán las tiendas agregadas por ti, y que aun no han sido aprobadas por un administrador de la página.</p>
+{% if not tiendas_pers %}
+<p class="bg-danger p-2">No existen tiendas personales</p>
+{% else %}
+<div class="table-responsive">
+<table class="table table-hover">
+    <thead class="bg-primary">
+        <tr>
+            <td>Tienda</td>
+            <td>Sucursal</td>
+            <td>Dirección</td>
+            <td>Ciudad</td>
+            <td>Región</td>
+            <td>Acciones</td>
+        </tr>
+    </thead>
+    <tbody>  
+        {% for tienda in tiendas_pers %}      
+        <tr>
+        
+            <td>{{ tienda.nombreTienda }}</td>
+            <td>{{ tienda.nombreSucursal }}</td>
+            <td>{{ tienda.direccion }}</td>
+            <td>{{ tienda.ciudad }}</td>
+            <td>{{ tienda.region }}</td>
+            <td>
+                <a class="btn btn-warning btn-sm mr-2" href="{% url 'tiendas:tiendas_update' tienda.id %}"><i class="fas fa-edit"></i></a>
+                <a class="btn btn-danger btn-sm" href="{% url 'tiendas:tiendas_delete' tienda.id %}"><i class="fas fa-trash"></i></a>
+            </td>
+            
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+{% endif %}
+</div>
+
+
+
+<!-- Tiendas disponibles -->
+<div class="col-lg-6 p-1">
+<h2>Tiendas disponibles</h2>
+<p class="text-info">Aquí apareceran todas las tiendas de nuestra comunidad, aprobadas por los administradores de la página.</p>
+<br class="d-none d-sm-block">
+{% if not tiendas_disp %}
+<p class="bg-danger p-2">No existen tiendas disponibles</p>
+<br><br><br><br><br><br><br><br>
+{% else %}
+<div class="table-responsive">
+<table class="table">
+    <thead class="bg-primary">
+        <tr>
+            <td>Tienda</td>
+            <td>Sucursal</td>
+            <td>Dirección</td>
+            <td>Ciudad</td>
+            <td>Región</td>
+        </tr>
+    </thead>
+    <tbody>  
+        {% for tienda in tiendas_disp %}      
+        <tr>
+        
+            <td>{{ tienda.nombreTienda }}</td>
+            <td>{{ tienda.nombreSucursal }}</td>
+            <td>{{ tienda.direccion }}</td>
+            <td>{{ tienda.ciudad }}</td>
+            <td>{{ tienda.region }}</td>        
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+</div>
+{% endif %}
+</div>
+
+</div>
+{% endblock %}

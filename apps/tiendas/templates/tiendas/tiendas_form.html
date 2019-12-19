@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title %}Ingreso de Tienda{% endblock %}
+
+{% block content %}
+<div class="">
+<h3 class="display-3">Tiendas</h3>
+<hr>
+</div>
+<div class="col-lg-4 p-0">
+<form method="post">
+    {% csrf_token %}
+    <!-- {{ form.as_p }} -->
+    {% for field in form %}
+    <div class="form-group">
+        <label for="{{ field.name}}">{{ field.label_tag }}</label><br>            
+        {{ field }}
+        <div class="bg-danger mt-1">{{ field.errors }}</div>
+    </div>
+    {% endfor %}
+    
+    <div class="bg-danger mt-1 mb-2">{{ form.non_field_errors }}</div>
+
+    <input type="submit" class="btn btn-success" value="Guardar" />
+    <a class="ml-2" href="{% url 'tiendas:tiendas_list' %}">cancelar</a>
+    <p class="text-muted">* Debes esperar a que un administrador acepte la tienda, hasta entonces solo se podrás usar la nueva tienda de forma personal.</p>
+</form>
+</div>
+{% endblock %}
